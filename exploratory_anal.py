@@ -372,26 +372,65 @@ def analyze_correlations(df):
             print("Opção inválida. Tente novamente.")
 
            
+# def analyze_outliers(df):
+#     """Identificação e análise de outliers"""
+#     print("\n=== Análise de Outliers ===")
+    
+#     num_cols = ['Idade', 'PressaoArterialRepouso', 'Colesterol', 'FrequenciaCardiacaMaxima', 'DepressaoSegST']
+    
+#     # Boxplots para visualização
+#     plt.figure(figsize=(12, 6))
+#     df[num_cols].boxplot()
+#     plt.xticks(rotation=0)
+#     plt.title('Boxplots para Identificação de Outliers')
+#     plt.show()
+    
+#     # Identificação usando Z-score
+#     z_scores = np.abs(stats.zscore(df[num_cols]))
+#     outliers = (z_scores > 3).any(axis=1)
+#     print(f"\nNúmero de outliers (Z-score > 3): {outliers.sum()}")
+#     print("\nRegistros considerados outliers:")
+#     print(df[outliers])
+
 def analyze_outliers(df):
     """Identificação e análise de outliers"""
-    print("\n=== Análise de Outliers ===")
-    
     num_cols = ['Idade', 'PressaoArterialRepouso', 'Colesterol', 'FrequenciaCardiacaMaxima', 'DepressaoSegST']
+    cat_cols = [col for col in df.columns if col not in num_cols and df[col].dtype == 'object']
     
-    # Boxplots para visualização
-    plt.figure(figsize=(12, 6))
-    df[num_cols].boxplot()
-    plt.xticks(rotation=0)
-    plt.title('Boxplots para Identificação de Outliers')
-    plt.show()
-    
-    # Identificação usando Z-score
-    z_scores = np.abs(stats.zscore(df[num_cols]))
-    outliers = (z_scores > 3).any(axis=1)
-    print(f"\nNúmero de outliers (Z-score > 3): {outliers.sum()}")
-    print("\nRegistros considerados outliers:")
-    print(df[outliers])
-
+    while True:
+        print("\n=== Análise de Outliers e Valores Únicos ===")
+        print("\nEscolha uma opção:")
+        print("1 - Colunas numéricas (boxplot)")
+        print("2 - Colunas textuais (valores únicos)")
+        print("3 - Voltar")
+        
+        opcao = input("Escolha uma opção: ")
+        
+        if opcao == '1':
+            # Boxplots para visualização de colunas numéricas
+            plt.figure(figsize=(12, 6))
+            df[num_cols].boxplot()
+            plt.xticks(rotation=0)
+            plt.title('Boxplots para Identificação de Outliers')
+            plt.show()
+            
+        elif opcao == '2':
+            # Análise de colunas textuais/categóricas
+            if not cat_cols:
+                print("\nNão há colunas textuais no dataframe.")
+                return
+                
+            print("\nValores únicos em colunas textuais:")
+            for col in cat_cols:
+                unique_vals = df[col].unique()
+                print(f"\nColuna '{col}':")
+                print(unique_vals)
+            
+        elif opcao == '3':
+            break
+                
+        else:
+            print("Opção inválida. Por favor escolha 1 ou 2.")
 
 def analyze_distributions(df):
     """Análise das distribuições das variáveis com menu interativo"""
