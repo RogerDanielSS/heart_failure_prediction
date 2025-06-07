@@ -112,3 +112,24 @@ Aplicando a mesma lógica, os valores mostrados na distribuição de dados não 
 ##### 2.2.2.3 Frequência cardíaca
 
 ![Distribuição de frequência cardíaca](/assets/dist_freq_car.png)
+
+Os valores mostrados como possíveis outliers estão no limite inferior. Vamos iniciar a análise somente o mínimo de 60 bpm. 
+
+Valores tão baixos parecem estranhos para frequência máxima de um indivíduo. [Esse artigo no Scielo](https://www.scielo.br/j/abc/a/3SG3HkTkTZmg6NtrDfXmZYq/) obteve uma média global de 181,0 bpm ± 14,0bpm. Enquanto isso, [essa matéria do portal Tua Saúde](https://www.tuasaude.com/frequencia-cardiaca/) mostra entre valores 56 e 80 bpm para mulheres em repouso e valores entre 61 e 84 para homens em repouso. 
+
+Isso levanta a suspeita que se trata de um erro na alimentação do dataset, por se tratar de valores muito distantes do esperado para indivíduos saudáveis. No entanto, após visualizar o gráfico de correlação entre frequência cardíaca máxima e doença cardíaca, chegamos à conclusão de que não se trata de erros na alimentação do dataset.
+
+
+![Correlação entre frequência cardíaca máxima e doença cardíaca](/assets/correlacao_freq_max_doeca_card.png)
+
+##### 2.2.2.4 Depressão segmento ST
+
+
+![Distribuição de depressão no segmento ST](/assets/dist_dep_seg_st.png)
+
+Segundo [essa matéria do portal Cardiovascular Medicine](https://ecgwaves.com/st-segment-normal-abnormal-depression-elevation-causes/), são considerados valores normais até 0.5mm de depressão no segmento ST, "porque indivíduos saudáveis ​​raramente apresentam depressão nesse segmento" (tradução livre). 
+
+Neste caso, fazemos uma análise parecida com a de frequência cardíaca: são valores muito distantes do que aparentemente é considerado normal para indivíduos saudáveis, então existe alguma possibilidade de erro de preenchimento. Como o gráfico de correlação mostra uma correlação forte entre os valores tidos como anormais e a ocorrência de doença cardíaca, concluímos que não se trata de um erro de preenchimento.
+
+
+![Correlação de depressão no segmento ST com doença cardíaca](/assets/correlacao_dist_seg_st_doeca.png)
