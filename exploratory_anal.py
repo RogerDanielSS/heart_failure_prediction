@@ -554,7 +554,8 @@ def exploratory_analysis_menu(df):
         print("1 - Correlações")
         print("2 - Outliers")
         print("3 - Distribuição das variáveis")
-        print("4 - Voltar ao menu principal")
+        print("4 - Visualizar estrutura geral dos dados")
+        print("5 - Voltar ao menu principal")
         
         choice = input("Escolha uma opção: ")
         
@@ -565,6 +566,8 @@ def exploratory_analysis_menu(df):
         elif choice == '3':
             analyze_distributions(df)
         elif choice == '4':
+            print(df.head())
+        elif choice == '5':
             break
         else:
             print("Opção inválida. Tente novamente.")

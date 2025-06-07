@@ -9,7 +9,7 @@
 
 ### 1.2 Criar e iniciar ambiente
 
-    conda create --name ml python=3.9 numpy pandas matplotlib seaborn
+    conda create --name ml python=3.9 numpy pandas matplotlib seaborn scikit-learn
 
     conda activate ml
 
