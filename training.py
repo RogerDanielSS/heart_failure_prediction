@@ -87,6 +87,7 @@ def default_training(df_processed):
     print("\n=== Resultados Finais ===")
     print(f"Acurácia média: {np.mean(accuracies):.4f}")
     print(f"Desvio padrão: {np.std(accuracies):.4f}")
+    input("\n\nPressione Enter para continuar...")
 
 def training_menu(df):
     """Menu para treinamento de modelos"""
