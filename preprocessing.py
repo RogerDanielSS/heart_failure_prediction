@@ -3,6 +3,7 @@ import numpy as np
 from exploratory_anal import exploratory_analysis_menu
 from training import training_menu
 from sklearn.preprocessing import StandardScaler, LabelEncoder
+import os
 
 def default_preprocess(df):
     """Pré-processamento dos dados para o modelo, mantendo no DataFrame
@@ -34,6 +35,7 @@ def default_preprocess(df):
 def preprocessing_menu(df):
     """Menu para análise exploratória"""
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Pré processamento ===")
         print("1 - Padrão")
         
@@ -54,6 +56,7 @@ def preprocessing_menu(df):
 def redirect_to_training_menu(df):
     """Menu para análise exploratória"""
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Pré processamento ===")
         print("1 - Treinamento")
         print("2 - Análise exploratória do dataset processado")

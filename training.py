@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import classification_report, accuracy_score
+import os
 
 def preprocess_data(df):
     """Pré-processamento dos dados para o modelo, mantendo no DataFrame"""
@@ -90,9 +91,10 @@ def default_training(df_processed):
 def training_menu(df):
     """Menu para treinamento de modelos"""
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Treinamento ===")
         print("1 - Treinar MLP com Validação Cruzada (3 folds)")
-        print("2 - Voltar ao menu principal")
+        print("2 - Voltar")
         
         choice = input("Escolha uma opção: ")
         

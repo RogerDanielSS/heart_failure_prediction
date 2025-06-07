@@ -1,16 +1,17 @@
 from exploratory_anal import exploratory_analysis_menu
-from training import training_menu
 from loader import set_dataset
 from preprocessing import preprocessing_menu
+import os
 
 def main():
     """Função principal"""
     df = set_dataset()
 
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Menu Principal ===")
         print("1 - Análise exploratória")
-        print("2 - Pré-processamento")
+        print("2 - Treinamento")
         # print("3 - Treinamento")
         print("3 - Sair")
         

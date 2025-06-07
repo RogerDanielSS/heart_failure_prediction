@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from scipy import stats
+import os
 
 def show_basic_info(df):
     """Mostra informações básicas do dataset"""
@@ -39,6 +40,7 @@ def analyze_patterns(df):
 def analyze_correlations(df):
     """Análise de correlações entre variáveis com menu interativo"""
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Análise de Correlações ===")
         print("Selecione o tipo de análise:")
         print("1 - Matriz de correlação completa")
@@ -202,6 +204,7 @@ def analyze_correlations(df):
 def analyze_correlations(df):
     """Análise de correlações entre variáveis com menu interativo"""
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Análise de Correlações ===")
         print("Selecione o tipo de análise:")
         print("1 - Matriz de correlação completa")
@@ -395,9 +398,12 @@ def analyze_correlations(df):
 def analyze_outliers(df):
     """Identificação e análise de outliers"""
     num_cols = ['Idade', 'PressaoArterialRepouso', 'Colesterol', 'FrequenciaCardiacaMaxima', 'DepressaoSegST']
-    cat_cols = [col for col in df.columns if col not in num_cols and df[col].dtype == 'object']
+    tex_cols = ['Sexo', 'TipoDorToracica', 'ECGRepouso', 'DorAngina', 'InfradesnivelamentoSegST']
+
+    # cat_cols = [col for col in df.columns if col not in num_cols and df[col].dtype == 'object']
     
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Análise de Outliers e Valores Únicos ===")
         print("\nEscolha uma opção:")
         print("1 - Colunas numéricas (boxplot)")
@@ -416,12 +422,12 @@ def analyze_outliers(df):
             
         elif opcao == '2':
             # Análise de colunas textuais/categóricas
-            if not cat_cols:
-                print("\nNão há colunas textuais no dataframe.")
-                return
+            # if not cat_cols:
+            #     print("\nNão há colunas textuais no dataframe.")
+            #     return
                 
             print("\nValores únicos em colunas textuais:")
-            for col in cat_cols:
+            for col in tex_cols:
                 unique_vals = df[col].unique()
                 print(f"\nColuna '{col}':")
                 print(unique_vals)
@@ -435,6 +441,7 @@ def analyze_outliers(df):
 def analyze_distributions(df):
     """Análise das distribuições das variáveis com menu interativo"""
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Análise de Distribuições ===")
         print("Selecione a variável para análise:")
         print("1 - Idade")
@@ -550,12 +557,13 @@ def analyze_distributions(df):
 def exploratory_analysis_menu(df):
     """Menu para análise exploratória"""
     while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Análise Exploratória ===")
         print("1 - Correlações")
         print("2 - Outliers")
         print("3 - Distribuição das variáveis")
         print("4 - Visualizar estrutura geral dos dados")
-        print("5 - Voltar ao menu principal")
+        print("5 - Voltar")
         
         choice = input("Escolha uma opção: ")
         
@@ -566,7 +574,9 @@ def exploratory_analysis_menu(df):
         elif choice == '3':
             analyze_distributions(df)
         elif choice == '4':
+            os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
             print(df.head())
+            input("\n\nPressione Enter para continuar...")
         elif choice == '5':
             break
         else:
