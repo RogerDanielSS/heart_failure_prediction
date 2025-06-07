@@ -15,7 +15,7 @@
 
 ### 1.3 Rodar programa
 
-    python menu.py
+    python app.py
 
 ## 2 Análise exploratória
 
