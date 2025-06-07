@@ -6,7 +6,28 @@ from scipy import stats
 import os
 
 def show_basic_info(df):
-    """Mostra informações básicas do dataset"""
+    while True:
+        os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
+        print("\n=== Análise Exploratória ===")
+        print("1 - Informações sobre as colunas")
+        print("2 - Descrição dos dados")
+        print("3 - Voltar")
+        
+        choice = input("Escolha uma opção: ")
+        
+        if choice == '1':
+            os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
+            print(df.info())
+            input("\n\nPressione Enter para continuar...")
+        elif choice == '2':
+            os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
+            print(df.describe(include='all'))
+            input("\n\nPressione Enter para continuar...")
+        elif choice == '3':
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
     print("\n=== Primeiras linhas do dataset ===")
     print(df.head())
     
@@ -574,9 +595,7 @@ def exploratory_analysis_menu(df):
         elif choice == '3':
             analyze_distributions(df)
         elif choice == '4':
-            os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
-            print(df.head())
-            input("\n\nPressione Enter para continuar...")
+            show_basic_info(df)
         elif choice == '5':
             break
         else:
