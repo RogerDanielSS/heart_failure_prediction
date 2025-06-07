@@ -5,30 +5,35 @@ from training import training_menu
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import os
 
-def default_preprocess(df):
-    """Pré-processamento dos dados para o modelo, mantendo no DataFrame
-    - Normaliza todas as variáveis numéricas
-    - Transforma variáveis categóricas em índices numéricos
-    """
-    # Criar uma cópia para não modificar o original
-    df_processed = df.copy()
-    
-    # Definir colunas numéricas e categóricas
+def normalize_numeric_columns(df_processed):
     numeric_features = ['Idade', 'PressaoArterialRepouso', 'Colesterol', 
                        'FrequenciaCardiacaMaxima', 'DepressaoSegST']
-    categorical_features = ['Sexo', 'TipoDorToracica', 'GlicemiaJejum', 
-                           'ECGRepouso', 'DorAngina', 'InfradesnivelamentoSegST']
-    
-    # 1. Normalização das variáveis numéricas
+
+    # Normalização das variáveis numéricas
     if numeric_features:
         scaler = StandardScaler()
         df_processed[numeric_features] = scaler.fit_transform(df_processed[numeric_features])
-    
-    # 2. Transformação das variáveis categóricas em índices numéricos
+
+    return df_processed
+
+def create_indexes_for_categorical_columns(df_processed):
+    categorical_features = ['Sexo', 'TipoDorToracica', 'GlicemiaJejum', 
+                           'ECGRepouso', 'DorAngina', 'InfradesnivelamentoSegST']
+
+    # Transformação das variáveis categóricas em índices numéricos
     for col in categorical_features:
         if col in df_processed.columns:
             le = LabelEncoder()
             df_processed[col] = le.fit_transform(df_processed[col])
+    
+
+    return df_processed
+
+def default_preprocess(df):
+    df_processed = df.copy()
+    
+    df_processed = normalize_numeric_columns(df_processed)
+    df_processed = create_indexes_for_categorical_columns(df_processed)
     
     return df_processed
 
@@ -58,7 +63,7 @@ def redirect_to_training_menu(df):
     while True:
         os.system('cls' if os.name == 'nt' else 'clear')  # Clears terminal
         print("\n=== Pré processamento ===")
-        print("1 - Treinamento")
+        print("1 - Treinar")
         print("2 - Análise exploratória do dataset processado")
         print("3 - Voltar")
         
