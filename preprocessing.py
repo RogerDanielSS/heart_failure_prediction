@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from exploratory_anal import exploratory_analysis_menu
 from training import training_menu
-from sklearn.preprocessing import StandardScaler, LabelEncoder
+from sklearn.preprocessing import StandardScaler, LabelEncoder, RobustScaler, OneHotEncoder
 import os
 
 def remove_zero_cholesterol_rows(df_processed):
@@ -25,6 +25,35 @@ def normalize_numeric_columns(df_processed):
 
     return df_processed
 
+def normalize_numeric_columns_robust(df_processed):
+    numeric_features = ['Idade', 'PressaoArterialRepouso', 'Colesterol', 
+                       'FrequenciaCardiacaMaxima', 'DepressaoSegST']
+
+    # Normalização das variáveis numéricas
+    if numeric_features:
+        scaler = RobustScaler()
+        df_processed[numeric_features] = scaler.fit_transform(df_processed[numeric_features])
+
+    return df_processed
+
+def zeros_become_median(df_processed):
+    df_processed[['Colesterol', 'PressaoArterialRepouso']] = df_processed[['Colesterol', 'PressaoArterialRepouso']].replace(0, np.nan)
+    median_colesterol = df_processed['Colesterol'].median()
+    median_glicemia = df_processed['PressaoArterialRepouso'].median()
+
+    df_processed['Colesterol'] = df_processed['Colesterol'].fillna(median_colesterol)
+    df_processed['PressaoArterialRepouso'] = df_processed['PressaoArterialRepouso'].fillna(median_glicemia)
+
+    return df_processed
+
+def make_negatives_positives(df_processed):
+    df_processed['DepressaoSegST'] = df_processed['DepressaoSegST'].clip(lower=-2.5, upper=6)
+    return df_processed
+
+def drop_Glicemia_column(df_processed):
+    df_processed = df_processed.drop('GlicemiaJejum', axis=1)
+    return df_processed
+
 def create_indexes_for_categorical_columns(df_processed):
     categorical_features = ['Sexo', 'TipoDorToracica', 'GlicemiaJejum', 
                            'ECGRepouso', 'DorAngina', 'InfradesnivelamentoSegST']
@@ -42,7 +71,6 @@ def little_basic_preprocess(df):
     df_processed = df.copy()
     
     df_processed = create_indexes_for_categorical_columns(df_processed)
-    
     return df_processed
 
 def basic_preprocess(df):
@@ -62,6 +90,17 @@ def intermediary_A_preprocess(df):
     
     return df_processed
 
+def advanced_PreProcess(df):
+    df_processed = df.copy()
+
+    df_processed = normalize_numeric_columns_robust(df_processed)
+    df_processed = zeros_become_median(df_processed)
+    df_processed = make_negatives_positives(df_processed)
+    df_processed = drop_Glicemia_column(df_processed)
+    df_processed = create_indexes_for_categorical_columns(df_processed)
+
+    return df_processed 
+
 def preprocessing_menu(df):
     """Menu para análise exploratória"""
     while True:
@@ -70,7 +109,9 @@ def preprocessing_menu(df):
         print("1 - Basiquinho: \n-> Indexa variáveis categóricas")
         print("\n2 - Básico:  \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
         print("\n3 - Intermediário A (Recomendado):  \n-> Exclui linhas que contém colesterol == 0 \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
-        print("\n4 - Voltar")
+        print("\n4 - Avançado:  \n-> Linhas com zeros possuem seus valores suubstituidos pela media \n-> valores negativos ficam positivos \n-> Elimina a coluna de glicemia \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
+        print("\n5 - Avançado:  \n-> Linhas com zeros possuem seus valores substituidos pela mediana \n-> valores negativos ficam positivos \n-> Elimina a coluna de glicemia \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas com o robust")
+        print("\n6 - Voltar")
         
         choice = input("Escolha uma opção: ")
         
@@ -84,6 +125,9 @@ def preprocessing_menu(df):
             df_processed = intermediary_A_preprocess(df)
             redirect_to_training_menu(df_processed)
         elif choice == '4':
+            df_processed = advanced_PreProcess(df)
+            redirect_to_training_menu(df_processed)
+        elif choice == '6':
             break
         else:
             print("Opção inválida. Tente novamente.")
