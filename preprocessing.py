@@ -68,11 +68,8 @@ def normalize_numeric_columns_robust(df_processed):
     return df_processed
 
 def zeros_become_median(df_processed):
-    df_processed[['Colesterol', 'PressaoArterialRepouso']] = df_processed[['Colesterol', 'PressaoArterialRepouso']].replace(0, np.nan)
-    median_colesterol = df_processed['Colesterol'].median()
+    df_processed[['PressaoArterialRepouso']] = df_processed[[ 'PressaoArterialRepouso']].replace(0, np.nan)
     median_glicemia = df_processed['PressaoArterialRepouso'].median()
-
-    df_processed['Colesterol'] = df_processed['Colesterol'].fillna(median_colesterol)
     df_processed['PressaoArterialRepouso'] = df_processed['PressaoArterialRepouso'].fillna(median_glicemia)
 
     return df_processed
@@ -81,9 +78,6 @@ def make_negatives_positives(df_processed):
     df_processed['DepressaoSegST'] = df_processed['DepressaoSegST'].clip(lower=-2.5, upper=6)
     return df_processed
 
-def drop_Glicemia_column(df_processed):
-    df_processed = df_processed.drop('GlicemiaJejum', axis=1)
-    return df_processed
 
 def create_indexes_for_categorical_columns(df_processed):
     categorical_features = ['Sexo', 'TipoDorToracica', 'GlicemiaJejum', 
@@ -138,7 +132,6 @@ def advanced_PreProcess(df):
     df_processed = normalize_numeric_columns_robust(df_processed)
     df_processed = zeros_become_median(df_processed)
     df_processed = make_negatives_positives(df_processed)
-    df_processed = drop_Glicemia_column(df_processed)
     df_processed = create_indexes_for_categorical_columns(df_processed)
 
     return df_processed 
