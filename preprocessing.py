@@ -5,9 +5,40 @@ from training import training_menu
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 import os
 
+def replace_zero_cholesterol_with_mode(df):
+    df_processed = df.copy()
+    
+    mode_value = df_processed[df_processed['Colesterol'] != 0]['Colesterol'].mode()[0]
+    
+    zero_count = (df_processed['Colesterol'] == 0).sum()
+    
+    df_processed.loc[df_processed['Colesterol'] == 0, 'Colesterol'] = mode_value
+
+    return df_processed
+
 def remove_zero_cholesterol_rows(df_processed):
     # Filtrar linhas onde Colesterol != 0
     df_processed = df_processed[df_processed['Colesterol'] != 0]
+    
+    # Resetar índice se necessário
+    df_processed.reset_index(drop=True, inplace=True)
+    
+    return df_processed
+
+def replace_zero_restingBP_with_mode(df):
+    df_processed = df.copy()
+    
+    mode_value = df_processed[df_processed['PressaoArterialRepouso'] != 0]['PressaoArterialRepouso'].mode()[0]
+    
+    zero_count = (df_processed['PressaoArterialRepouso'] == 0).sum()
+    
+    df_processed.loc[df_processed['PressaoArterialRepouso'] == 0, 'PressaoArterialRepouso'] = mode_value
+
+    return df_processed
+
+def remove_zero_restingBP_rows(df_processed):
+    # Filtrar linhas onde PressaoArterialRepouso != 0
+    df_processed = df_processed[df_processed['PressaoArterialRepouso'] != 0]
     
     # Resetar índice se necessário
     df_processed.reset_index(drop=True, inplace=True)
@@ -57,6 +88,17 @@ def intermediary_A_preprocess(df):
     df_processed = df.copy()
     
     df_processed = remove_zero_cholesterol_rows(df_processed)
+    df_processed = remove_zero_restingBP_rows(df_processed)
+    df_processed = normalize_numeric_columns(df_processed)
+    df_processed = create_indexes_for_categorical_columns(df_processed)
+    
+    return df_processed
+
+def intermediary_B_preprocess(df):
+    df_processed = df.copy()
+    
+    df_processed = replace_zero_cholesterol_with_mode(df_processed)
+    df_processed = replace_zero_restingBP_with_mode(df_processed)
     df_processed = normalize_numeric_columns(df_processed)
     df_processed = create_indexes_for_categorical_columns(df_processed)
     
@@ -70,7 +112,8 @@ def preprocessing_menu(df):
         print("1 - Basiquinho: \n-> Indexa variáveis categóricas")
         print("\n2 - Básico:  \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
         print("\n3 - Intermediário A (Recomendado):  \n-> Exclui linhas que contém colesterol == 0 \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
-        print("\n4 - Voltar")
+        print("\n4 - Intermediário B (Recomendado):  \n-> Substitui pela mola linhas que têm colesterol == 0 \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
+        print("\n5 - Voltar")
         
         choice = input("Escolha uma opção: ")
         
@@ -83,7 +126,10 @@ def preprocessing_menu(df):
         if choice == '3':
             df_processed = intermediary_A_preprocess(df)
             redirect_to_training_menu(df_processed)
-        elif choice == '4':
+        if choice == '4':
+            df_processed = intermediary_B_preprocess(df)
+            redirect_to_training_menu(df_processed)
+        elif choice == '5':
             break
         else:
             print("Opção inválida. Tente novamente.")
