@@ -57,14 +57,17 @@ def normalize_numeric_columns(df_processed):
     return df_processed
 
 def normalize_numeric_columns_robust(df_processed):
-    numeric_features = ['Idade', 'PressaoArterialRepouso', 'Colesterol', 
-                       'FrequenciaCardiacaMaxima', 'DepressaoSegST']
+    numeric_features = df_processed.select_dtypes(include=['int64', 'float64'])
+    categorical_features = df_processed.select_dtypes(include=['object'])
 
     # Normalização das variáveis numéricas
     if numeric_features:
         scaler = RobustScaler()
         df_processed[numeric_features] = scaler.fit_transform(df_processed[numeric_features])
 
+    # Normalização das variáveis categoricas usa o One-Hot
+    if categorical_features:
+        df_processed[categorical_features] = pd.get_dummies(df_processed[categorical_features])
     return df_processed
 
 def zeros_become_median(df_processed):
