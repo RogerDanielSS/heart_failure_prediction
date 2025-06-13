@@ -36,6 +36,19 @@ def replace_zero_restingBP_with_mode(df):
 
     return df_processed
 
+def add_age_groups(df_processed, age_column='Idade'):
+
+    bins = [20, 30, 40, 50, 60, 70, np.inf]
+    labels = [0, 1, 2, 3, 4, 5]  # Ordinal encoding
+    
+    df_processed[age_column] = pd.cut(
+        df_processed[age_column],
+        bins=bins,
+        labels=labels,
+        right=False
+    ).astype(int)  
+    return df_processed
+
 def remove_zero_restingBP_rows(df_processed):
     # Filtrar linhas onde PressaoArterialRepouso != 0
     df_processed = df_processed[df_processed['PressaoArterialRepouso'] != 0]
@@ -139,6 +152,7 @@ def intermediary_B_preprocess(df):
 def advanced_PreProcess(df):
     df_processed = df.copy()
 
+    df_processed = add_age_groups(df_processed)
     df_processed = normalize_columns_robust(df_processed)
     df_processed = handle_colesterol_MANR(df_processed)
     df_processed = zeros_become_median(df_processed)
