@@ -2,7 +2,7 @@ import pandas as pd
 import numpy as np
 from exploratory_anal import exploratory_analysis_menu
 from training import training_menu
-from sklearn.preprocessing import StandardScaler, LabelEncoder, RobustScaler, OneHotEncoder
+from sklearn.preprocessing import StandardScaler, LabelEncoder, RobustScaler
 import os
 
 def replace_zero_cholesterol_with_mode(df):
@@ -56,18 +56,19 @@ def normalize_numeric_columns(df_processed):
 
     return df_processed
 
-def normalize_numeric_columns_robust(df_processed):
+def normalize_columns_robust(df_processed):
     numeric_features = df_processed.select_dtypes(include=['int64', 'float64'])
     categorical_features = df_processed.select_dtypes(include=['object'])
 
     # Normalização das variáveis numéricas
-    if numeric_features:
+    if not numeric_features.empty:
         scaler = RobustScaler()
-        df_processed[numeric_features] = scaler.fit_transform(df_processed[numeric_features])
+        df_processed[numeric_features.columns] = scaler.fit_transform(df_processed[numeric_features.columns])
 
     # Normalização das variáveis categoricas usa o One-Hot
-    if categorical_features:
-        df_processed[categorical_features] = pd.get_dummies(df_processed[categorical_features])
+    if not categorical_features.empty:
+        df_processed = pd.get_dummies(df_processed, columns=categorical_features.columns)
+    
     return df_processed
 
 def zeros_become_median(df_processed):
@@ -93,6 +94,12 @@ def create_indexes_for_categorical_columns(df_processed):
             df_processed[col] = le.fit_transform(df_processed[col])
     
 
+    return df_processed
+
+def handle_colesterol_MANR(df_processed):
+
+    df_processed['Zero_Cholesterol'] = (df_processed['Colesterol'] == 0).astype(int)
+    df_processed = df_processed.drop('Colesterol', axis=1)
     return df_processed
 
 def little_basic_preprocess(df):
@@ -132,7 +139,8 @@ def intermediary_B_preprocess(df):
 def advanced_PreProcess(df):
     df_processed = df.copy()
 
-    df_processed = normalize_numeric_columns_robust(df_processed)
+    df_processed = normalize_columns_robust(df_processed)
+    df_processed = handle_colesterol_MANR(df_processed)
     df_processed = zeros_become_median(df_processed)
     df_processed = make_negatives_positives(df_processed)
     df_processed = create_indexes_for_categorical_columns(df_processed)
