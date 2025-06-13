@@ -477,8 +477,8 @@ def analyze_distributions(df):
         print("10 - DepressaoSegST")
         print("11 - InfradesnivelamentoSegST")
         print("12 - DoencaCardiaca")
-        print("13 - Voltar ao menu anterior")
-        
+        print("13 - Analise de MNAR em Colesterol")
+        print("14 - Voltar ao menu anterior")
         choice = input("Escolha uma opção (1-13): ")
         
         if choice == '1':
@@ -567,8 +567,28 @@ def analyze_distributions(df):
             sns.countplot(data=df, x='DoencaCardiaca')
             plt.title('Distribuição de Doença Cardíaca')
             plt.show()
-            
+
         elif choice == '13':
+            # colesterol MNAR
+            df['chol_zero'] = df['Colesterol'] == 0
+
+            resultado = df.groupby('chol_zero')['DoencaCardiaca'].value_counts(normalize=True).unstack()
+            print("Distribuição de doença com base na ausência de colesterol:")
+            print(resultado)
+
+            # Convert the hue values to strings explicitly
+            plot_df = df.copy()
+            plot_df['DoencaCardiaca'] = plot_df['DoencaCardiaca'].map({0: 'Não', 1: 'Sim'})
+            
+            sns.countplot(x='chol_zero', hue='DoencaCardiaca', data=plot_df)
+            plt.title("Doença vs Ausência de Colesterol")
+            plt.xlabel("Colesterol ausente?")
+            plt.ylabel("Contagem")
+            plt.xticks([0, 1], ['Não', 'Sim'])
+            plt.legend(title='Doença')
+            plt.show()
+        
+        elif choice == '14':
             break
             
         else:
