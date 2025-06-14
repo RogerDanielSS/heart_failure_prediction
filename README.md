@@ -145,14 +145,27 @@ Ao fazer a analise de distribuição de variaveis em Colesterol se percebeu a pr
 
 Por causa dessa conexão entre a presença de zeros e a presença de doenças cardiacas resolvemos focar o predicamento envolvendo colesterol nela. Por isso, criamos uma (flag) binaria que evidencia a presença do 0 na coluna e removemos os outros valores de colesterol os substituindo pelos da flag binaria., ja que os mesmos como pode se observar na analise 2.2.2.1 não são interessantes para o aprendizado do modelo.
 
-##### 3.1.1.1 Analise de Depressão SegST
+##### 3.1.1.2 Analise de Depressão SegST
 Similarmente com a analise de colesterol percebemos que ha um grande número de 0 na coluna, assim utilizamos novamento a tecnica de MNAR para averiguar a importancia desses valores e percebemos que 66% dos dados zerados não possuem doença cardiaca, tornando-os muito valiosos para o aprendizado da nossa maquina. Por causa disso resolvemos criar uma flag binario que evidencia a presença do 0 na coluna e removemos os outros valores de Depressão SegST os substituindo pelos da bandeira binaria.
 
 ![Correlação da ausencia de valores em Depressão SegST com doençcas cardiacas](/assets/correlacao_entre_doenca_e_SegSt_0.png)
 
-##### 3.1.1.1 Analise de Idade
+##### 3.1.1.3 Analise de Idade
 No caso de idade a presença de inumeros valores unicos é prejudicial para o aprendizado da maquina já que eles causam uma menor capacidade de previsão. Para evitar esse prejuijo resolvemos agrupar esses valores em cinco grupos de dezenas, indo de jovem adulto(20-29) até os idosos (70+). Esse agrupamento vacilita no aprendizado da maquina já que elimina a existencia desses valores unicos aumentando a acuracia e previsibilidade do aprendizado.
 
 ![Distribuição de idade Por Agrupamento](/assets/distribuicao_de_idade_por_agrupamento.png)
 
-##### 3.1.1.1 Analise de Idade
+#### 3.1.2 Normatização dos dados
+Após verificar as informaçoes dos dados temos que as colunas do banco de dados verificamos que elas são divididas em 2 tipos de dados os númericos e os categoricos do tipo objeto.
+
+##### 3.1.2.1 Dados Númericos
+Para lidar com os dados númericos foi utilizado o RobustScaler da biblioteca Scikit-learn. O processo de normalização é muito usado no preprocessamento de muitas maquinas de apredizados que focam em previsões, esse processo é feito retirando a media e redimencionando para variação unitaria. Entretanto outliers podem influenciar esse calculo de forma negativa se utilizado tecnicas mais simples. Por causa disso que escolhemos usar o RobustScaler já que ele utilizad de IQR(intervalo quartil) e da mediana para o dimencionamentom gerando resultados melhores.
+
+##### 3.1.2.2 Dados Categóricos
+Ao analisar os dados categoricos percebemos que existem dois tipos de dados categoricos no Banco de Dados, os dados categoricos nominais e os ordinais.
+
+###### 3.1.2.2.1 Dados Categóricos Nominais
+Para lidar com os dados Categóricos Nominais foi utilizado o One-Hot Encoding do Scikit-learn que serve para transformar dados não numericos em um formato que os algoritmos de aprendizagem de maquina consigam entender colunas binárias. Variáveis nominais não tem uma ordem matemática e se fosse atribuido numeros a elas o modelo poderia interpretar esses valores como tendo uma hierarquia, assim a tecnica do One-Hot Encoding remove a suposição de que numeros maiores tenham mais peso, tratando cada categoria de forma independente.
+
+###### 3.1.2.2.2 Dados Categóricos Ordinais
+Diferentemente das categorias nominais, aqui ocorre uma hierarquia maatemática então a sua normalização não pode ocorrer com o uso do One-Hot Encoding. Assim a normalização não precisou de usos de bibliotecas especificas podendo ser feitas com bibliotecas naturais do python. Na coluna Infra desnivelamento SegST os valores ({'Down': 0, 'Flat': 1, 'Up': 2}) foram mapeados manualmente e essas categorias foram transformados em numeros que preservão uma regra de magnitude 0 < 2.
