@@ -133,3 +133,26 @@ Neste caso, fazemos uma análise parecida com a de frequência cardíaca: são v
 
 
 ![Correlação de depressão no segmento ST com doença cardíaca](/assets/correlacao_dist_seg_st_doeca.png)
+
+## 3    Pre - Processamento
+
+#### 3.1.1 Analises
+
+##### 3.1.1.1 Analise de Colesterol
+Ao fazer a analise de distribuição de variaveis em Colesterol se percebeu a presença de um grande número de valores zerados, o que levou ao questionamento do que fazer com essa coluna. Com o objetivo de descobrir se esses valores tinham algum significado importante foi decidido a utilização da analise de números ausentes MNAR (Missing Not at Random) onde foi averiguado que 89% dos valores zerados tinham problema cardiaco. Por meio disso percebemos que não seria benefico para a melhor acuracia do ML(Machine Learning) a exclusão desses dados ou da coluna já que eles eram uma variavel valiosa para a predição da presença de doenças.
+
+![Correlação da ausencia de valores em colesterol com doençcas cardiacas](/assets/correlacao_entre_doenca_e_colesterol_0.png)
+
+Por causa dessa conexão entre a presença de zeros e a presença de doenças cardiacas resolvemos focar o predicamento envolvendo colesterol nela. Por isso, criamos uma (flag) binaria que evidencia a presença do 0 na coluna e removemos os outros valores de colesterol os substituindo pelos da flag binaria., ja que os mesmos como pode se observar na analise 2.2.2.1 não são interessantes para o aprendizado do modelo.
+
+##### 3.1.1.1 Analise de Depressão SegST
+Similarmente com a analise de colesterol percebemos que ha um grande número de 0 na coluna, assim utilizamos novamento a tecnica de MNAR para averiguar a importancia desses valores e percebemos que 66% dos dados zerados não possuem doença cardiaca, tornando-os muito valiosos para o aprendizado da nossa maquina. Por causa disso resolvemos criar uma flag binario que evidencia a presença do 0 na coluna e removemos os outros valores de Depressão SegST os substituindo pelos da bandeira binaria.
+
+![Correlação da ausencia de valores em Depressão SegST com doençcas cardiacas](/assets/correlacao_entre_doenca_e_SegSt_0.png)
+
+##### 3.1.1.1 Analise de Idade
+No caso de idade a presença de inumeros valores unicos é prejudicial para o aprendizado da maquina já que eles causam uma menor capacidade de previsão. Para evitar esse prejuijo resolvemos agrupar esses valores em cinco grupos de dezenas, indo de jovem adulto(20-29) até os idosos (70+). Esse agrupamento vacilita no aprendizado da maquina já que elimina a existencia desses valores unicos aumentando a acuracia e previsibilidade do aprendizado.
+
+![Distribuição de idade Por Agrupamento](/assets/distribuicao_de_idade_por_agrupamento.png)
+
+##### 3.1.1.1 Analise de Idade

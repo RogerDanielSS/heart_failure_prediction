@@ -478,7 +478,8 @@ def analyze_distributions(df):
         print("11 - InfradesnivelamentoSegST")
         print("12 - DoencaCardiaca")
         print("13 - Analise de MNAR em Colesterol")
-        print("14 - Voltar ao menu anterior")
+        print("14 - Analise de MNAR em ST_SLOPE")
+        print("15 - Voltar")
         choice = input("Escolha uma opção (1-13): ")
         
         if choice == '1':
@@ -587,8 +588,27 @@ def analyze_distributions(df):
             plt.xticks([0, 1], ['Não', 'Sim'])
             plt.legend(title='Doença')
             plt.show()
-        
         elif choice == '14':
+            # colesterol MNAR
+            df['St_slope_zero'] = df['InfradesnivelamentoSegST'] == 0
+
+            resultado = df.groupby('St_slope_zero')['DoencaCardiaca'].value_counts(normalize=True).unstack()
+            print("Distribuição de doença com base na ausência de InfradesnivelamentoSegST:")
+            print(resultado)
+
+            # Convert the hue values to strings explicitly
+            plot_df = df.copy()
+            plot_df['DoencaCardiaca'] = plot_df['DoencaCardiaca'].map({0: 'Não', 1: 'Sim'})
+            
+            sns.countplot(x='St_slope_zero', hue='DoencaCardiaca', data=plot_df)
+            plt.title("Doença vs Ausência de InfradesnivelamentoSegST")
+            plt.xlabel("InfradesnivelamentoSegST ausente?")
+            plt.ylabel("Contagem")
+            plt.xticks([0, 1], ['Não', 'Sim'])
+            plt.legend(title='Doença')
+            plt.show()
+        
+        elif choice == '15':
             break
             
         else:
