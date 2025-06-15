@@ -137,7 +137,13 @@ Neste caso, fazemos uma análise parecida com a de frequência cardíaca: são v
 
 ![Correlação de depressão no segmento ST com doença cardíaca](/assets/correlacao_dist_seg_st_doeca.png)
 
-## 3    Pre - Processamento
+## 3 Pré-Processamento
+
+### 3.1 Pré-processamento simples
+
+Um pré-processamento simples, sem uma análise aprofundada dos dados.
+
+Simplesmente é feita a normalização dos dados numéricos, para reduzir a influência de outliers e uma idexação simples das variáveis categóricas
 
 #### 3.1.1 Analises
 
@@ -149,12 +155,12 @@ Ao fazer a analise de distribuição de variaveis em Colesterol se percebeu a pr
 Por causa dessa conexão entre a presença de zeros e a presença de doenças cardiacas resolvemos focar a predição envolvendo colesterol nela. Por isso, criamos uma (flag) binaria que evidencia a presença do 0 na coluna e removemos os outros valores de colesterol os substituindo pelos da flag binaria., ja que os mesmos como pode se observar na analise 2.2.2.1 não são interessantes para o aprendizado do modelo.
 
 ##### 3.1.1.2 Analise de Depressão SegST
-Similarmente com a analise de colesterol percebemos que ha um grande número de 0 na coluna, assim utilizamos novamento a tecnica de MNAR para averiguar a importancia desses valores e percebemos que 66% dos dados zerados não possuem doença cardiaca, tornando-os muito valiosos para o aprendizado da nossa maquina. Por causa disso resolvemos criar uma flag binario que evidencia a presença do 0 na coluna e removemos os outros valores de Depressão SegST os substituindo pelos da bandeira binaria.
+Similarmente com a analise de colesterol percebemos que ha um grande número de 0 na coluna, assim utilizamos novamento a tecnica de MNAR para averiguar a importancia desses valores e percebemos que 66% dos dados zerados não possuem doença cardiaca. No entanto, conforme já dito na sessão 2.2.2.4, esse 0 não representa dados inválidos e sim o esperado para pessoas saudáveis. Então a estratégia adotada foi categorizar se existe ou não alguma depressão no seguimento ST. Na prática, é o mesmo tratamento de Colesterol, mas por motivos diferentes.
 
 ![Correlação da ausencia de valores em Depressão SegST com doençcas cardiacas](/assets/correlacao_entre_doenca_e_SegSt_0.png)
 
 ##### 3.1.1.3 Analise de Idade
-No caso de idade a presença de inumeros valores unicos é prejudicial para o aprendizado da maquina já que eles causam uma menor capacidade de previsão. Para evitar esse prejuijo resolvemos agrupar esses valores em cinco grupos de dezenas, indo de jovem adulto(20-29) até os idosos (70+). Esse agrupamento vacilita no aprendizado da maquina já que elimina a existencia desses valores unicos aumentando a acuracia e previsibilidade do aprendizado.
+No caso de idade a presença de inumeros valores unicos pode ser prejudicial para o aprendizado da maquina já que eles causam uma menor capacidade de previsão. Para evitar esse prejuijo resolvemos agrupar esses valores em cinco grupos de dezenas, indo de jovem adulto(20-29) até os idosos (70+). Esse agrupamento vacilita no aprendizado da maquina já que elimina a existencia desses valores unicos aumentando a acuracia e previsibilidade do aprendizado.
 
 ![Distribuição de idade Por Agrupamento](/assets/distribuicao_de_idade_por_agrupamento.png)
 
