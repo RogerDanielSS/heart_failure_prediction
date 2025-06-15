@@ -124,7 +124,6 @@ Isso levanta a suspeita que se trata de um erro na alimentação do dataset, por
 
 ##### 2.2.2.4 Depressão segmento ST
 
-
 ![Distribuição de depressão no segmento ST](/assets/dist_dep_seg_st.png)
 
 Segundo [essa matéria do portal Cardiovascular Medicine](https://ecgwaves.com/st-segment-normal-abnormal-depression-elevation-causes/), são considerados valores normais até 0.5mm de depressão no segmento ST, "porque indivíduos saudáveis ​​raramente apresentam depressão nesse segmento" (tradução livre). 
