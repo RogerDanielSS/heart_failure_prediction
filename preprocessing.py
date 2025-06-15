@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from exploratory_anal import exploratory_analysis_menu
+from exploratory_anal.exploratory_anal import exploratory_analysis_menu
 from training import training_menu
 from sklearn.preprocessing import StandardScaler, LabelEncoder, RobustScaler, OneHotEncoder
 import os
@@ -129,13 +129,13 @@ def create_indexes_for_categorical_columns(df_processed):
 
 def handle_colesterol_MANR(df_processed):
 
-    df_processed['Zero_Cholesterol'] = (df_processed['Colesterol'] == 0).astype(int)
+    df_processed['ColesterolPresente'] = (df_processed['Colesterol'] == 0).astype(int)
     df_processed = df_processed.drop('Colesterol', axis=1)
     return df_processed
 
 def handle_SegST_MANR(df_processed):
 
-    df_processed['Zero_DepressaoSegST'] = (df_processed['DepressaoSegST'] == 0).astype(int)
+    df_processed['DepressaoSegStExiste'] = (df_processed['DepressaoSegST'] == 0).astype(int)
     df_processed = df_processed.drop('DepressaoSegST', axis=1)
     return df_processed
 

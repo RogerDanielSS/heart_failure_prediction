@@ -1,4 +1,4 @@
-from exploratory_anal import exploratory_analysis_menu
+from exploratory_anal.exploratory_anal import exploratory_analysis_menu
 from loader import set_dataset
 from preprocessing import preprocessing_menu
 import os
