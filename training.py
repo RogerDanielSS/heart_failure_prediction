@@ -98,53 +98,43 @@ def optimized_training(df_processed):
 
     # Definir a pipeline para pré-processamento e MLP
     pipeline = Pipeline([
-        ("mlp", MLPClassifier(max_iter=2000, random_state=42)) # Aumentar max_iter para convergência
+        ("mlp", MLPClassifier(max_iter=1000, random_state=42))
     ])
 
     # Definir o grid de parâmetros para GridSearchCV
     param_grid = {
-        "mlp__hidden_layer_sizes": [(50,), (100,), (50, 25), (100, 50, 25), (200, 100, 50)],
-        "mlp__activation": ["relu", "tanh", "logistic"],
+        "mlp__hidden_layer_sizes": [(50,), (100,), (50, 25), (100, 50, 25)],
+        "mlp__activation": ["relu", "tanh"],
         "mlp__solver": ["adam", "sgd"],
-        "mlp__alpha": [0.0001, 0.001, 0.01, 0.1], # Parâmetro de regularização L2
+        "mlp__alpha": [0.0001, 0.001, 0.01], 
         "mlp__learning_rate": ["constant", "adaptive"],
     }
 
     # Configurar GridSearchCV
-    kf = KFold(n_splits=5, shuffle=True, random_state=42)
-    grid_search = GridSearchCV(pipeline, param_grid, cv=kf, 
+    grid_search = GridSearchCV(pipeline, param_grid, cv=KFold(n_splits=5, shuffle=True, random_state=42), 
                                scoring="accuracy", n_jobs=-1, verbose=2)
 
-    print("\n=== Treinamento Otimizado MLP com GridSearchCV ===")
+    print("\n=== Treinamento Otimizado com GridSearchCV ===")
     grid_search.fit(X, y)
 
-    print("\nMelhores parâmetros encontrados:", grid_search.best_params_)
-    print("Melhor acurácia (validação cruzada):", grid_search.best_score_)
-
-    cv_results = grid_search.cv_results_
+    # Obter o índice do melhor resultado
     best_index = grid_search.best_index_
-
-    print(f"Desvio padrão: {cv_results['std_test_score'][best_index]:.4f}")
-
-    # Avaliar o melhor modelo usando KFold para obter média e desvio padrão
-    best_mlp = grid_search.best_estimator_
-    accuracies = []
-    for fold, (train_index, test_index) in enumerate(kf.split(X), 1):
-        X_train, X_test = X.iloc[train_index], X.iloc[test_index]
-        y_train, y_test = y.iloc[train_index], y.iloc[test_index]
-        
-        best_mlp.fit(X_train, y_train)
-        y_pred = best_mlp.predict(X_test)
-        accuracy = accuracy_score(y_test, y_pred)
-        accuracies.append(accuracy)
     
-    print("\n=== Resultados Finais MLP Otimizado ===")
-    print(f"Acurácia média: {np.mean(accuracies):.4f}")
-    print(f"Desvio padrão: {np.std(accuracies):.4f}")
-    print("\nRelatório de Classificação no conjunto completo de dados (com o melhor modelo):")
-    y_pred_full = best_mlp.predict(X)
+    # Obter a média e o desvio padrão dos scores de teste para o melhor estimador
+    mean_accuracy = grid_search.cv_results_['mean_test_score'][best_index]
+    std_accuracy = grid_search.cv_results_['std_test_score'][best_index]
+
+    print("\n=== Resultados Finais (Otimização com GridSearchCV) ===")
+    print(f"Melhores parâmetros encontrados: {grid_search.best_params_}")
+    print(f"\nAcurácia média: {mean_accuracy:.4f}")
+    print(f"Desvio padrão: {std_accuracy:.4f}")
+    
+    # É uma boa prática mostrar o relatório do melhor modelo
+    best_model = grid_search.best_estimator_
+    y_pred_full = best_model.predict(X)
+    print("\nRelatório de Classificação do melhor modelo (nos dados completos para referência):")
     print(classification_report(y, y_pred_full))
-    plot_model_metrics(best_mlp, X, y)
+    
     input("\n\nPressione Enter para continuar...")
 
 def logistic_regression_training(df_processed):
