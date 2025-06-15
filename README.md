@@ -2,16 +2,20 @@
 
 ## 1 Configuração de ambiente com conda
 
-### 1.1 instalar conda com apt
-    sudo apt update
+### 1.1 instalar conda (pacote debian)
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 
-    sudo apt install anaconda
-
+    bash Miniconda3-latest-Linux-x86_64.sh  
+    
+    echo 'export PATH="$HOME/miniconda3/bin:$PATH"' >> ~/.bashrc
+    source ~/.bashrc
 ### 1.2 Criar e iniciar ambiente
 
     conda create --name ml python=3.9 numpy pandas matplotlib seaborn scikit-learn
 
     conda activate ml
+
+    (tente reabrir o VS code ou o terminal em caso de erros)
 
 ### 1.3 Rodar programa
 
