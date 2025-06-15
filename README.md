@@ -80,7 +80,7 @@ Observando tanto o gráfico de barras, quanto o boxplot, é possível verificar 
 
 
 ###### 2.2.2.1.1 Valores zerados
-interpretamos que não são valores possíveis, por tanto representam ausência de dados ou não preenchimento. Os preenchimentos possíveis são dois: Excluir as linhas que não possuem esses dados ou substituir os valores zarados pela média ou mediana dos valores da coluna.
+interpretamos que não são valores possíveis, por tanto representam ausência de dados ou não preenchimento. Numa análise simples, há dois tratamentos possíveis: Excluir as linhas que não possuem esses dados ou substituir os valores zarados pela média ou mediana dos valores da coluna.
 
 ###### 2.2.2.1.2 Valores acima de 400
 Segundo [essa matéria do telemedicida Morsch](https://telemedicinamorsch.com.br/blog/colesterol-alto?srsltid=AfmBOoo1VX7_ERXKow-IqOWyFhwVE9fQU6aA82t8tDxyav6zodjMflQ3), o colestetol total é considerado saudável quando abaixo de 190. 
@@ -101,7 +101,7 @@ Agora analisando os possíveis outliers
 
 ###### 2.2.2.2.1 Valores zerados
 
-Zero está bem distante dos valores do intervalo mostrado [nessa matéria mesma do telemedicina Morsch](https://telemedicinamorsch.com.br/blog/tabela-de-pressao-arterial?srsltid=AfmBOooJWKinr68IJn031KjYffJNxsqZsAfGmvL5t24zitmYtQsIlraX). Chegamos à conclusão de que são erros de preenchimento ou simplesmente dados não preenchidos. Tal qual para a coluna colesterol, há dois tratamentos possíveis: Excluir as linhas que não possuem esses dados ou substituir os valores zarados pela média ou mediana dos valores da coluna.
+Zero está bem distante dos valores do intervalo mostrado [nessa matéria mesma do telemedicina Morsch](https://telemedicinamorsch.com.br/blog/tabela-de-pressao-arterial?srsltid=AfmBOooJWKinr68IJn031KjYffJNxsqZsAfGmvL5t24zitmYtQsIlraX). Chegamos à conclusão de que são erros de preenchimento ou simplesmente dados não preenchidos. Tal qual para a coluna colesterol, numa análise simples, há dois tratamentos possíveis: Excluir as linhas que não possuem esses dados ou substituir os valores zarados pela média ou mediana dos valores da coluna.
 
 
 ###### 2.2.2.2.2 Valores acima de 170
@@ -142,7 +142,7 @@ Ao fazer a analise de distribuição de variaveis em Colesterol se percebeu a pr
 
 ![Correlação da ausencia de valores em colesterol com doençcas cardiacas](/assets/correlacao_entre_doenca_e_colesterol_0.png)
 
-Por causa dessa conexão entre a presença de zeros e a presença de doenças cardiacas resolvemos focar o predicamento envolvendo colesterol nela. Por isso, criamos uma (flag) binaria que evidencia a presença do 0 na coluna e removemos os outros valores de colesterol os substituindo pelos da flag binaria., ja que os mesmos como pode se observar na analise 2.2.2.1 não são interessantes para o aprendizado do modelo.
+Por causa dessa conexão entre a presença de zeros e a presença de doenças cardiacas resolvemos focar a predição envolvendo colesterol nela. Por isso, criamos uma (flag) binaria que evidencia a presença do 0 na coluna e removemos os outros valores de colesterol os substituindo pelos da flag binaria., ja que os mesmos como pode se observar na analise 2.2.2.1 não são interessantes para o aprendizado do modelo.
 
 ##### 3.1.1.2 Analise de Depressão SegST
 Similarmente com a analise de colesterol percebemos que ha um grande número de 0 na coluna, assim utilizamos novamento a tecnica de MNAR para averiguar a importancia desses valores e percebemos que 66% dos dados zerados não possuem doença cardiaca, tornando-os muito valiosos para o aprendizado da nossa maquina. Por causa disso resolvemos criar uma flag binario que evidencia a presença do 0 na coluna e removemos os outros valores de Depressão SegST os substituindo pelos da bandeira binaria.
