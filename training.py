@@ -120,13 +120,19 @@ def optimized_training(df_processed):
     print("\nMelhores parâmetros encontrados:", grid_search.best_params_)
     print("Melhor acurácia (validação cruzada):", grid_search.best_score_)
 
+    cv_results = grid_search.cv_results_
+    best_index = grid_search.best_index_
+
+    print(f"Desvio padrão: {cv_results['std_test_score'][best_index]:.4f}")
+
     # Avaliar o melhor modelo no conjunto de dados completo (ou em um conjunto de teste separado, se disponível)
     best_mlp = grid_search.best_estimator_
     y_pred = best_mlp.predict(X)
     print("\nRelatório de Classificação no conjunto completo de dados:")
     print(classification_report(y, y_pred))
     print(f"Acurácia no conjunto completo de dados: {accuracy_score(y, y_pred):.4f}")
-    plot_model_metrics(best_mlp, X, y)
+    #plot_model_metrics(best_mlp, X, y)
+    input("Pressione Enter para finalizar...")
 
 def training_menu(df):
     """Menu para treinamento de modelos"""
