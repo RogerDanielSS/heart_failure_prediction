@@ -13,40 +13,6 @@ from sklearn.metrics import classification_report
 from sklearn.linear_model import LogisticRegression
 import os
 
-def preprocess_data(df):
-    """Pré-processamento dos dados para o modelo, mantendo no DataFrame"""
-    # Criar uma cópia para não modificar o original
-    df_processed = df.copy()
-    
-    # Definir colunas numéricas e categóricas
-    numeric_features = ["Idade", "PressaoArterialRepouso", "Colesterol", 
-                       "FrequenciaCardiacaMaxima", "DepressaoSegST"]
-    categorical_features = ["Sexo", "TipoDorToracica", "GlicemiaJejum", 
-                           "ECGRepouso", "DorAngina", "InfradesnivelamentoSegST"]
-    
-    # Aplicar StandardScaler nas features numéricas
-    scaler = StandardScaler()
-    df_processed[numeric_features] = scaler.fit_transform(df_processed[numeric_features])
-    
-    # Aplicar OneHotEncoder nas features categóricas
-    encoder = OneHotEncoder(sparse_output=False, handle_unknown="ignore")
-    encoded_features = encoder.fit_transform(df_processed[categorical_features])
-    
-    # Obter nomes das novas colunas
-    encoded_columns = []
-    for i, col in enumerate(categorical_features):
-        categories = encoder.categories_[i]
-        for cat in categories:
-            encoded_columns.append(f"{col}_{cat}")
-    
-    # Criar DataFrame com as features codificadas
-    encoded_df = pd.DataFrame(encoded_features, columns=encoded_columns, index=df_processed.index)
-    
-    # Concatenar com as features numéricas e remover as originais categóricas
-    df_processed = pd.concat([df_processed.drop(categorical_features, axis=1), encoded_df], axis=1)
-    
-    return df_processed
-
 def default_training(df_processed):
     """Treina um modelo MLP com validação cruzada de 3 folds"""
     # Separar features e target
