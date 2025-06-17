@@ -63,9 +63,7 @@ def optimized_training(df_processed):
     y = df_processed["DoencaCardiaca"]
 
     # Definir a pipeline para pré-processamento e MLP
-    pipeline = Pipeline([
-        ("mlp", MLPClassifier(max_iter=1000, random_state=42))
-    ])
+    mlp = MLPClassifier(max_iter=1000, random_state=42)
 
     # Definir o grid de parâmetros para GridSearchCV
     param_grid = {
@@ -77,7 +75,7 @@ def optimized_training(df_processed):
     }
 
     # Configurar GridSearchCV
-    grid_search = GridSearchCV(pipeline, param_grid, cv=KFold(n_splits=5, shuffle=True, random_state=42), 
+    grid_search = GridSearchCV(mlp, param_grid, cv=KFold(n_splits=5, shuffle=True, random_state=42), 
                                scoring="accuracy", n_jobs=-1, verbose=2)
 
     print("\n=== Treinamento Otimizado com GridSearchCV ===")
