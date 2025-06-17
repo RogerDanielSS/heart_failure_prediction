@@ -107,9 +107,8 @@ def logistic_regression_training(df_processed):
     y = df_processed["DoencaCardiaca"]
 
     # Definir a pipeline para Regressão Logística
-    pipeline = Pipeline([
-        ("logreg", LogisticRegression(random_state=42, max_iter=2000)) # Aumentar max_iter para convergência
-    ])
+
+    logreg = LogisticRegression(random_state=42, max_iter=2000)
 
     # Definir o grid de parâmetros para GridSearchCV
     param_grid = {
@@ -144,7 +143,7 @@ def logistic_regression_training(df_processed):
 
     # Configurar GridSearchCV
     kf = KFold(n_splits=5, shuffle=True, random_state=42)
-    grid_search = GridSearchCV(pipeline, param_grid_filtered, cv=kf, 
+    grid_search = GridSearchCV(logreg, param_grid_filtered, cv=kf, 
                                scoring="accuracy", n_jobs=-1, verbose=2)
 
     print("\n=== Treinamento de Regressão Logística com GridSearchCV ===")
