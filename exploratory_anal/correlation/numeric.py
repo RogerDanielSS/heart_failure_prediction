@@ -20,6 +20,8 @@ def numeric_menu(df):
             print("5 - Correlação entre DoencaCardiaca e DepressaoSegST")
         elif 'DepressaoSegStExiste' in df.columns: 
             print("5 - Correlação entre DoencaCardiaca e DepressaoSegStExiste")
+
+            
         print("6 - Voltar")
         choice = input("Escolha uma opção (1-6): ")
         

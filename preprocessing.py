@@ -192,7 +192,7 @@ def preprocessing_menu(df):
         print("\n2 - Básico:  \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
         print("\n3 - Intermediário A:  \n-> Exclui linhas que contém colesterol == 0 \n-> Exclui linhas que contém pressao_arterial_repolso == 0 \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
         print("\n4 - Intermediário B:  \n-> Substitui pela moda linhas que têm colesterol == 0 \n-> Substitui pela moda linhas que têm pressao_arterial_repolso == 0 \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
-        print("\n5 - Avançado(Recomendado):  \n-> Linhas com zeros possuem seus valores substituidos pela media \n-> valores negativos ficam positivos \n-> Elimina a coluna de glicemia \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
+        print("\n5 - Avançado(Recomendado):  \n-> Linhas com zeros possuem seus valores substituidos pela media \n-> valores negativos ficam positivos \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas")
         #print("\n6 - Avançado:  \n-> Linhas com zeros possuem seus valores substituidos pela mediana \n-> valores negativos ficam positivos \n-> Elimina a coluna de glicemia \n-> Indexa variáveis categóricas \n-> Normaliza variáveis numéricas com o robust")
         print("\n6 - Voltar")
         
